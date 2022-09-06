@@ -1,0 +1,338 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 FiraCode-Regular;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 title Chronobreak!\
+author Giorgio Perri\
+homepage www.giorgioperri.com/backout\
+noundo\
+\
+========\
+OBJECTS\
+========\
+\
+Background .\
+#111111\
+00000\
+00000\
+00000\
+00000\
+00000\
+\
+\
+WallOne\
+#1d1d1b #313131\
+00000\
+01000\
+00110\
+00100\
+00000\
+\
+WallTwo\
+#1d1d1b #313131\
+00000\
+00010\
+01000\
+01010\
+00000\
+\
+PlayerGrounded\
+darkgray lightgreen white \
+00000\
+02210\
+02110\
+00000\
+.0.0.\
+\
+PlayerJumping1\
+darkgray lightgreen white \
+00000\
+02210\
+02110\
+00000\
+.0.0.\
+\
+PlayerJumping2\
+darkgray lightgreen white \
+00000\
+02210\
+02110\
+00000\
+.0.0.\
+\
+Backtoken\
+darkgray lightgreen green\
+00.00\
+0...0\
+..1..\
+0...0\
+00.00\
+\
+FiveTile\
+grey lightgreen\
+11111\
+1....\
+11111\
+....1\
+11111\
+\
+FourTile\
+grey lightgreen\
+1...1\
+1...1\
+11111\
+....1\
+....1\
+\
+ThreeTile\
+grey lightgreen\
+11111\
+....1\
+11111\
+....1\
+11111\
+\
+TwoTile\
+grey lightgreen\
+.111.\
+1..11\
+..11.\
+.11..\
+11111\
+\
+OneTile\
+grey lightgreen\
+.11..\
+..1..\
+..1..\
+..1..\
+..1..\
+\
+ExclamationTile\
+grey lightgreen\
+..1..\
+..1..\
+..1..\
+.....\
+..1..\
+\
+DoorBotLocked\
+#444 gray #e85e3f\
+00000\
+00022\
+00000\
+00000\
+00000\
+\
+DoorBotOpen\
+#444 gray #84f092\
+00000\
+00022\
+00000\
+00000\
+00000\
+\
+DoorTop\
+#444 gray\
+.....\
+.....\
+00000\
+00000\
+00000\
+\
+ConsoleLocked\
+#e85e3f #444\
+.....\
+.....\
+.000.\
+.111.\
+11111\
+\
+ConsoleUnlocked\
+#84f092 #444\
+.....\
+.....\
+.000.\
+.111.\
+11111\
+\
+NoLockedConsoles\
+white\
+.....\
+.....\
+.....\
+.....\
+.....\
+\
+=======\
+LEGEND\
+=======\
+JumpingPlayer = PlayerJumping1 or PlayerJumping2\
+Player = PlayerGrounded or PlayerJumping1 or PlayerJumping2\
+Obstacle = PlayerGrounded or PlayerJumping1 or PlayerJumping2 or WallOne or WallTwo\
+\
+P = PlayerGrounded\
+B = Backtoken\
+5 = FiveTile\
+4 = FourTile\
+3 = ThreeTile\
+2 = TwoTile\
+1 = OneTile\
+! = ExclamationTile\
+E = DoorBotLocked\
+W = DoorBotOpen\
+D = DoorTop\
+# = WallOne\
+@ = WallTwo\
+C = ConsoleLocked\
+U = ConsoleUnlocked\
+\
+\
+=======\
+SOUNDS\
+=======\
+\
+player move horizontal 29070307\
+\
+sfx0 98008107\
+sfx1 94044303\
+sfx2 29070307\
+sfx3 98910902\
+sfx4 34824504\
+\
+================\
+COLLISIONLAYERS\
+================\
+\
+Background\
+DoorBotLocked, DoorBotOpen, DoorTop, ConsoleLocked, ConsoleUnlocked\
+NoLockedConsoles\
+WallOne, WallTwo, PlayerGrounded, PlayerJumping1,PlayerJumping2\
+Backtoken\
+FiveTile, FourTile, ThreeTile, TwoTile, OneTile, ExclamationTile\
+\
+======\
+RULES\
+======\
+\
+[OneTile][player][Backtoken] -> [no OneTile][no player][PlayerGrounded] sfx3\
+\
+[TwoTile] -> [OneTile]\
+[ThreeTile] -> [TwoTile]\
+[FourTile] -> [ThreeTile]\
+[FiveTile] -> [FourTile]\
+\
+[action player][Backtoken] -> [action player][no Backtoken]\
+[action player][FiveTile] -> [action player][no FiveTile]\
+[action player][FourTile] -> [action player][no FourTile]\
+[action player][ThreeTile] -> [action player][no ThreeTile]\
+[action player][TwoTile] -> [action player][no TwoTile]\
+[action player][OneTile] -> [action player][no OneTile]\
+[action Player] -> [action player Backtoken] sfx1\
+[action Player] -> [action player FiveTile]\
+[action player FiveTile] -> [action player up FiveTile] \
+\
+UP [ UP PlayerGrounded | NO Obstacle ] -> [ UP PlayerJumping2 | ] sfx0 \
+DOWN [ UP JumpingPlayer | NO Obstacle ] -> [ JumpingPlayer | ] \
+DOWN [ UP PlayerJumping2 | NO Obstacle ] -> [ PlayerJumping2 | ] \
+\
+[NoLockedConsoles][ConsoleLocked] -> [no NoLockedConsoles][ConsoleLocked] again\
+\
+late [DoorBotLocked] [NoLockedConsoles] -> [DoorBotOpen] [NoLockedConsoles]\
+\
+late [DoorBotOpen] [ConsoleLocked] -> [DoorBotLocked] [ConsoleLocked]\
+\
+[ > Player | ConsoleLocked ] -> [ > Player | ConsoleUnlocked NoLockedConsoles ] sfx4\
+\
+HORIZONTAL [ > PlayerJumping1 | NO Obstacle ] -> [ | PlayerGrounded ] sfx2\
+HORIZONTAL [ > PlayerJumping2 | NO Obstacle ] -> [ | PlayerJumping1 ] sfx2\
+LATE DOWN [ PlayerGrounded | NO Obstacle ] -> [ | PlayerGrounded ] \
+\
+LATE DOWN [ JumpingPlayer | Obstacle ] -> [ PlayerGrounded | Obstacle ] \
+\
+==============\
+WINCONDITIONS\
+==============\
+\
+all player on DoorBotOpen\
+\
+=======\
+LEVELS\
+=======\
+\
+message reach the door and get out!\
+\
+................\
+................\
+................\
+................\
+#..............#\
+#..............#\
+#............d.#\
+#.p..........w.#\
+################\
+\
+message use the up arrow or 'W' to jump. You can move twice before falling\
+\
+................\
+................\
+................\
+................\
+#..............#\
+#..............#\
+#........#...d.#\
+#.p.#..#.#...w.#\
+################\
+\
+message touch the console to open the door\
+\
+................\
+................\
+................\
+................\
+#..............#\
+#c.............#\
+###..........d.#\
+###.#.p......e.#\
+################\
+\
+message press X to spawn a marker - you'll go back to it after 5 moves. Press R if you get stuck\
+\
+...............#\
+..............d@\
+..............e#\
+.............##@\
+#..........#.###\
+@.........##.##@\
+#.....@##..#..##\
+@p.##.@###.#..C#\
+##@@#@##@@#@####\
+\
+message all consoles have to be activated in order for the door to open\
+\
+...............#\
+...............#\
+..####........d#\
+c.#....#......e#\
+##....#..#######\
+##..##.........#\
+###..........c.#\
+####.p......####\
+################\
+\
+####...........#\
+#d.#...........#\
+#e.............#\
+######...#.#..c#\
+#......#...#####\
+#...c..###.....#\
+#...########.p.#\
+#..#############\
+################\
+\
+message thank you for playing Chronobreak! have fun speedrunning this and trying to optimize your marker movement!\
+\
+}
